@@ -71,7 +71,7 @@ Citizen.CreateThread(function()
             if not mailboxOpened and IsControlJustReleased(0, Keys[Config.keyToOpen]) then
                 OpenUI(false)
                 Citizen.Wait(300)
-            elseif not mailboxOpened and IsControlJustReleased(0, Keys[Config.keyToOpenBroadcast]) then
+            elseif not mailboxOpened and IsControlJustReleased(0, Keys[Config.keyToOpenBroadcast]) and Config.AllowBroadcast then
                 OpenUI(true)
                 Citizen.Wait(300)
             end
@@ -153,6 +153,26 @@ RegisterNUICallback("broadcast", function(payload)
     local message = payload.message
 
     TriggerServerEvent("mailbox:broadcastMessage", { message = message });
+end)
+
+RegisterNUICallback("delete", function(payload)
+    TriggerServerEvent("mailbox:deleteMessage", { id = payload.id });
+end)
+
+RegisterNUICallback("markAsRead", function(payload)
+    TriggerServerEvent("mailbox:maskAsRead", { id = payload.id });
+end)
+
+RegisterNUICallback("forceGetMessages", function(payload)
+    TriggerServerEvent("mailbox:getMessages");
+end)
+
+RegisterNUICallback("forceGetUsers", function(payload)
+    TriggerServerEvent("mailbox:getUsers");
+end)
+
+RegisterNUICallback("forceGetLanguage", function(payload)
+    SendNUIMessage({ action = "set_language", language = json.encode(Locales[Config.locale]) })
 end)
 
 -- utils

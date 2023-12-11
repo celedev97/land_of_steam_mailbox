@@ -151,7 +151,7 @@ AddEventHandler("mailbox:getMessages", function()
                          >--]]
         local messages = {}
         for _, msg in pairs(result) do
-            messages[#messages+1] = {id=tostring(msg.id), firstname=msg.sender_firstname, lastname=msg.sender_lastname, message=msg.message, steam=msg.sender_id, received_at=msg.received_at}
+            messages[#messages+1] = {id=tostring(msg.id), firstname=msg.sender_firstname, lastname=msg.sender_lastname, message=msg.message, steam=msg.sender_id, received_at=msg.received_at, opened=msg.opened}
         end
         TriggerClientEvent("mailbox:setMessages", _source, messages)
     end)
@@ -168,27 +168,34 @@ AddEventHandler("mailbox:getUsers", function()
     if refreshRate > 0 and lastUsersRefresh + (1000 * refreshRate) < GetGameTimer() then
         RefreshUsersCache()
     end
+    print("SETTING USERS...")
     TriggerClientEvent("mailbox:setUsers", _source, usersCache)
 end)
 
-RegisterServerEvent("mailbox:updateMessages")
-AddEventHandler("mailbox:updateMessages", function(data)
+RegisterServerEvent("mailbox:deleteMessage")
+AddEventHandler("mailbox:deleteMessage", function(data)
     if source == nil then
-        print("[mailbox:updateMessages] source is null")
+        print("[mailbox:deleteMessage] source is null")
     end
+    local _source = source
+    local steamIdentifier =  CORE.getUser(_source).getIdentifier()
 
-    local toMarkAsread = data.toMarkAsread
+    local id = data.id
+    exports.ghmattimysql:execute("DELETE FROM mailbox_mails WHERE id = ? AND receiver_id = ?;", {id, steamIdentifier})
+    TriggerClientEvent("mailbox:deleteMessage", _source, id)
+end)
 
-    if data.toDelete ~= nil and #data.toDelete > 0 then
-        local toDelete = ""
-        for key, value in pairs(data.toDelete) do
-            toDelete = toDelete .. tostring(value) .. (key < #data.toDelete and ', ' or '')
-        end
-        exports.ghmattimysql:execute("DELETE FROM mailbox_mails WHERE id IN (" .. toDelete .. ");")
+RegisterServerEvent("mailbox:maskAsRead")
+AddEventHandler("mailbox:maskAsRead", function(data)
+    if source == nil then
+        print("[mailbox:maskAsRead] source is null")
     end
-    if toMarkAsread ~= nil and #toMarkAsread > 0 then
-        exports.ghmattimysql:execute( "UPDATE mailbox_mails SET opened = true WHERE id IN (?);", toMarkAsread)
-    end
+    local _source = source
+    local steamIdentifier =  CORE.getUser(_source).getIdentifier()
+
+    local id = data.id
+    exports.ghmattimysql:execute("UPDATE mailbox_mails SET opened = 1 WHERE id = ? AND receiver_id = ?;", {id, steamIdentifier})
+    TriggerClientEvent("mailbox:maskAsRead", _source, id)
 end)
 
 function RefreshUsersCache()
@@ -208,6 +215,4 @@ function RefreshUsersCache()
         end)
         lastUsersRefresh = GetGameTimer()
     end)
-
-    
 end
