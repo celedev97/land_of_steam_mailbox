@@ -1,0 +1,83 @@
+<div *ngIf="tab" id="mailbox-container" class="position-absolute top-50 start-50 translate-middle p-4 d-flex flex-column bg-white">
+
+  <div id="mailbox-header" class="d-flex justify-content-between align-items-center m-auto mb-1 w-100">
+    <div id="mailbox-title" class="d-flex align-items-center gap-4">
+      <div class="mailbox-title-icon">
+        <img
+          alt="letter"
+          src="data:image/webp;base64,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"
+        />
+      </div>
+      <h1 style="font-size: 2rem">
+        {{lang.uiTitleLabel}}
+        <br />
+        {{lang.uiTelegramLabel}}
+      </h1>
+    </div>
+    <a class="mailbox-button" (click)="closeUI()">{{lang.uiCloseButton}}</a>
+  </div>
+
+  <div id="mailbox-body" class="flex-grow-1 py-2" style="height: 0">
+
+    <ng-container *ngIf="tab == 'read'">
+      <div class="w-100 h-100 d-flex">
+        <aside class="border border-black border-2 border-end-0 overflow-y-auto" style="min-width: 310px;max-width: 310px;">
+          <ul id="mailbox-letters" class="mailbox-letters p-0">
+            <li
+              class="mailbox-letter px-3 py-4"
+              [ngClass]="{'active': selectedTelegram==letter, 'opened': letter.opened}"
+              *ngFor="let letter of telegramService.letters"
+              (click)="select(letter)"
+            >
+              <a [id]="'title-'+letter.id" class="letter-title">
+                {{lang.uiNamePrefix}}: {{letter.firstname}} {{letter.lastname}}
+              </a>
+              <a [id]="'date-'+letter.id" class="letter-date">
+                {{toLocalDate(letter.received_at)}}
+              </a>
+            </li>
+            <li *ngIf="telegramService.letters.length == 0">
+              {{lang.uiNoMessages}}
+            </li>
+          </ul>
+        </aside>
+        <main class="flex-grow-1 d-flex flex-column gap-2 border border-black border-2 p-4 overflow-y-auto">
+          <ng-container *ngIf="selectedTelegram">
+            <span class="display-6 pb-1">{{lang.uiNamePrefix}}: {{selectedTelegram.firstname}} {{selectedTelegram.lastname}}</span>
+            <pre class="font-typewriter flex-grow-1" style="text-transform: none !important;white-space: pre-wrap;word-wrap: break-word;" [innerText]="selectedTelegram.message"></pre>
+          </ng-container>
+        </main>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tab == 'write' || tab == 'broadcast'">
+      <textarea [(ngModel)]="myMessage" class="w-100 h-100 border border-black border-2 font-typewriter p-2"  id="mailbox-message-text" [placeholder]="lang.uiYourMessagePlaceholder"></textarea>
+    </ng-container>
+  </div>
+
+  <div id="mailbox-buttons" style="min-height: 100px" class="d-flex border border-black border-2 align-items-center justify-content-around">
+    <ng-container *ngIf="tab == 'read'">
+      <a id="mailbox-button-write" (click)="tab='write'">{{lang.uiWriteButton}}</a>
+      <ng-container *ngIf="selectedTelegram">
+        <a id="mailbox-button-delete" (click)="deleteMail(selectedTelegram)">{{lang.uiDeleteButton}}</a>
+        <a id="mailbox-button-answer" (click)="answerMail(selectedTelegram)">{{lang.uiAnswerButton}}</a>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="tab == 'write'">
+      <div>
+        <p>{{lang.uiDestinationLabel}}:</p>
+        <a (click)="showSelectDialog=true">{{destinationUser ? (destinationUser.firstname+' '+destinationUser.lastname) : lang.uiChooseDestinationLabel}}</a>
+      </div>
+      <a id="mailbox-button-cancel" (click)="tab='read'">{{lang.uiAbortButton}}</a>
+      <a id="mailbox-button-send" (click)="sendMessage()">{{lang.uiSendButton}}</a>
+    </ng-container>
+    <ng-container *ngIf="tab == 'broadcast'">
+      <a id="mailbox-button-broadcast-cancel">{{lang.uiAbortButton}}</a>
+      <a id="mailbox-button-broadcast">{{lang.uiSendButton}}</a>
+    </ng-container>
+  </div>
+
+</div>
+
+
+<app-dialog-destination *ngIf="showSelectDialog" (close)="showSelectDialog=false" (select)="selectDestination($event)"></app-dialog-destination>

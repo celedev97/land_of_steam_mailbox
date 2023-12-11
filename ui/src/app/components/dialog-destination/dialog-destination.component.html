@@ -1,0 +1,22 @@
+<div id="dialog" class="position-absolute top-50 start-50 translate-middle p-4 bg-white d-flex flex-column gap-3">
+  <div class="mailbox-title">
+    <h1>
+      {{lang.uiChooseDestinationLabel}}
+    </h1>
+  </div>
+  <div class="mailbox-body flex-grow-1 d-flex flex-column gap-3">
+    <input [placeholder]="lang.uiDestinationLabel" class="p-1 border border-2 border-black font-typewriter bg-transparent" [formControl]="autocompleteDestination" />
+    <div class="d-flex gap-4">
+      <div
+        *ngFor="let user of filteredUsers|async"
+        class="p-3"
+        (click)="selectUser(user)"
+        [ngClass]="{'bg-black bg-opacity-75 text-white text-bold': selectedUser === user}"
+      >{{user.firstname}} {{user.lastname}}</div>
+    </div>
+  </div>
+  <div class="d-flex gap-4 justify-content-around">
+    <a [ngClass]="{'opacity-75': !selectedUser}" (click)="selectDestination()">{{lang.uiSelectButton}}</a>
+    <a (click)="close.emit()">{{lang.uiAbortButton}}</a>
+  </div>
+</div>
