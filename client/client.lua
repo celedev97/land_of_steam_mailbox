@@ -179,32 +179,13 @@ local StartBirdThread = function(payload)
     Citizen.CreateThread(function()
         while isReceiving do
             Citizen.Wait(50)
-            local insideBuilding = GetInteriorFromEntity(ped)
-
-            local canSpawn = true
-
-            --controllo se il player è dentro un edificio, in caso avviso e non faccio spawnare il piccione
-            if insideBuilding ~= 0 then
-                Debug("insideBuilding", insideBuilding)
-                if not buildingNotified then
-                    DisplayTip(_U("TipInsideBuildingError"), 5000)
-                    buildingNotified = true
-                    Citizen.Wait(5000)
-                end
-
-                canSpawn = false
-
-                goto continue
-            end
-
 
             local playerCoords = GetEntityCoords(playerPed)
 
-            if canSpawn and not spawned then
+            if not spawned then
                 Debug("Spawning pidgeon!")
                 birdPed = SpawnBirdPost(playerCoords.x - 100, playerCoords.y - 100, playerCoords.z + 100, 92.0, rFar, 0)
                 TaskFlyToCoord(birdPed, 0, playerCoords.x - 1, playerCoords.y - 1, playerCoords.z, 1, 0)
-                canSpawn = false
                 spawned = true
             end
 
