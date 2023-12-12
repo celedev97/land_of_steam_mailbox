@@ -1,4 +1,4 @@
-# ***vorp_mailbox***
+# ***land_of_steam_mailbox***
 
 
 # ***FEATURES***
@@ -10,12 +10,14 @@
 
 
 # ***installation***
-* `ensure vorp_mailbox` in your resources called `Resources.cfg` 
+* `ensure land_of_steam_mailbox` in your resources called `Resources.cfg` 
 * run the `SQL` provided for database
 * enjoy 
 
 # ***License*** 
-* this plugin is protected by its license please read it.
+This plugin comes from the combined work of (VORP_mailbox)[https://github.com/VORPCORE/vorp_mailbox] and [rsg-telegram](https://github.com/Rexshack-RedM/rsg-telegram), since GPL2 and GPL3 are incompatible i have no idea what is the correct license for this plugin so i left the original license from vorp_mailbox, if you have any complaint about the license feel free to contact me.
 
 # Credits
 [Emolitt](https://github.com/RomainJolidon) original autor
+[celedev97](https://github.com/celedev97) remake with angular and inclusion of the bird post system
+[RedShackGaming](https://github.com/Rexshack-RedM) bird post system

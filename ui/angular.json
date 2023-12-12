@@ -3,7 +3,7 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"vorp_los_mailbox": {
+		"land_of_steam_mailbox": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
@@ -65,10 +65,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "vorp_los_mailbox:build:production"
+							"browserTarget": "land_of_steam_mailbox:build:production"
 						},
 						"development": {
-							"browserTarget": "vorp_los_mailbox:build:development"
+							"browserTarget": "land_of_steam_mailbox:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -76,7 +76,7 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "vorp_los_mailbox:build"
+						"browserTarget": "land_of_steam_mailbox:build"
 					}
 				},
 				"test": {

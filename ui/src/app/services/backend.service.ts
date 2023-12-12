@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "./user.service";
 
-const API = 'http://vorp_los_mailbox';
+const API = 'http://land_of_steam_mailbox';
 
 @Injectable({
   providedIn: 'root'

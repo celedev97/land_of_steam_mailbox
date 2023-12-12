@@ -28,4 +28,4 @@ files {
 version '1.0'
 vorp_checker 'yes'
 vorp_name '^4Resource version Check^3'
-vorp_github 'https://github.com/celedev97/vorp_los_mailbox'
+vorp_github 'https://github.com/celedev97/land_of_steam_mailbox'

@@ -5,7 +5,6 @@ local lastUserBroadcastSent = {}
 local lastUsersRefresh = 0;
 
 Citizen.CreateThread(function()
-
     TriggerEvent("getCore", function(dic)
         CORE = dic;
     end)
@@ -22,7 +21,7 @@ AddEventHandler("mailbox:sendMessage", function(data)
     local receiver = data.receiver
     local message = data.message
     local sourceCharacter = CORE.getUser(source).getUsedCharacter
-    local steamIdentifier =  CORE.getUser(source).getIdentifier()
+    local steamIdentifier = CORE.getUser(source).getIdentifier()
 
     local delay = Config['DelayBetweenTwoMessage']
     local lastMessageSentTime = lastUserMessageSent[steamIdentifier]
@@ -44,33 +43,46 @@ AddEventHandler("mailbox:sendMessage", function(data)
         return;
     end
 
-    exports.ghmattimysql:execute( "INSERT INTO mailbox_mails SET sender_id = ? , sender_firstname = ?, sender_lastname = ?, receiver_id = ?, receiver_firstname = ?, receiver_lastname = ?, message = ?;",
-    {steamIdentifier,
-    sourceCharacter.firstname,
-    sourceCharacter.lastname,
-    receiver.steam,
-    receiver.firstname,
-    receiver.lastname,
-    message
-    })
+    local insertedID = -1;
+    exports.ghmattimysql:execute(
+        "INSERT INTO mailbox_mails SET sender_id = ? , sender_firstname = ?, sender_lastname = ?, receiver_id = ?, receiver_firstname = ?, receiver_lastname = ?, message = ?;",
+        { steamIdentifier,
+            sourceCharacter.firstname,
+            sourceCharacter.lastname,
+            receiver.steam,
+            receiver.firstname,
+            receiver.lastname,
+            message
+        },
+        function(result)
+            insertedID = result.insertId
+            print("[mailbox:sendMessage] insertedID: " .. insertedID)
+
+            local connectedUsers = CORE.getUsers() -- return a Dictionary of <SteamID, User>
+            for steam, user in pairs(connectedUsers) do
+                -- if the steamID correspond to the receiver SteamID.
+                if steam == receiver.steam then
+                    local receiverCharacter = user.GetUsedCharacter()
+
+                    -- if connected receiver use the right character, send a tip to him
+                    if receiverCharacter.firstname == receiver.firstname and receiverCharacter.lastname == receiver.lastname then
+                        TriggerClientEvent("mailbox:receiveMessage", user.source, {
+                            id = insertedID,
+                            steam = steamIdentifier,
+                            firstname = sourceCharacter.firstname,
+                            lastname = sourceCharacter.lastname,
+                            message = message
+                        })
+                        return
+                    end
+                end
+            end
+        end)
 
     TriggerEvent("vorp:removeMoney", _source, 0, price)
     lastUserMessageSent[steamIdentifier] = gameTime
+    print("[mailbox:sendMessage] sending vorp tip: " .. _U("TipOnMessageSent"))
     TriggerClientEvent("vorp:Tip", _U("TipOnMessageSent"))
-
-    local connectedUsers = CORE.getUsers() -- return a Dictionary of <SteamID, User>
-    for steam, user in pairs(connectedUsers) do
-        -- if the steamID correspond to the receiver SteamID.
-        if steam == receiver.steam then
-            local receiverCharacter = user.GetUsedCharacter()
-
-            -- if connected receiver use the right character, send a tip to him
-            if receiverCharacter.firstname == receiver.firstname and receiverCharacter.lastname == receiver.lastname then
-                TriggerClientEvent("mailbox:receiveMessage", user.source, {author= sourceCharacter.firstname .. " " .. sourceCharacter.lastname })
-                return
-            end
-        end
-    end
 end)
 
 
@@ -110,7 +122,8 @@ AddEventHandler("mailbox:broadcastMessage", function(data)
 
     local connectedUsers = CORE.getUsers() -- return a Dictionary of <SteamID, User>
     for _, user in pairs(connectedUsers) do
-        TriggerClientEvent("mailbox:receiveBroadcast", user.source, {message=message, author= sourceCharacter.firstname .. " " .. sourceCharacter.lastname })
+        TriggerClientEvent("mailbox:receiveBroadcast", user.source,
+            { message = message, author = sourceCharacter.firstname .. " " .. sourceCharacter.lastname })
     end
 end)
 
@@ -131,12 +144,13 @@ AddEventHandler("mailbox:getMessages", function()
     local sourceCharacter = CORE.getUser(source).getUsedCharacter
     local steamIdentifier = CORE.getUser(source).getIdentifier()
 
-    exports.ghmattimysql:execute( "SELECT * FROM mailbox_mails WHERE receiver_id = ? AND receiver_firstname = ? AND receiver_lastname = ?;",
-    {steamIdentifier,
-    sourceCharacter.firstname,
-    sourceCharacter.lastname
-    }, function (result)
-        --[[letters: Array<{
+    exports.ghmattimysql:execute(
+        "SELECT * FROM mailbox_mails WHERE receiver_id = ? AND receiver_firstname = ? AND receiver_lastname = ?;",
+        { steamIdentifier,
+            sourceCharacter.firstname,
+            sourceCharacter.lastname
+        }, function(result)
+            --[[letters: Array<{
                          id,
                          sender_id,
                          sender_firstname,
@@ -149,12 +163,22 @@ AddEventHandler("mailbox:getMessages", function()
                          received_at
                          }
                          >--]]
-        local messages = {}
-        for _, msg in pairs(result) do
-            messages[#messages+1] = {id=tostring(msg.id), firstname=msg.sender_firstname, lastname=msg.sender_lastname, message=msg.message, steam=msg.sender_id, received_at=msg.received_at, opened=msg.opened}
-        end
-        TriggerClientEvent("mailbox:setMessages", _source, messages)
-    end)
+            local messages = {}
+            for _, msg in pairs(result) do
+                messages[#messages + 1] = {
+                    id = tostring(msg.id),
+                    firstname = msg.sender_firstname,
+                    lastname = msg
+                        .sender_lastname,
+                    message = msg.message,
+                    steam = msg.sender_id,
+                    received_at = msg.received_at,
+                    opened =
+                        msg.opened
+                }
+            end
+            TriggerClientEvent("mailbox:setMessages", _source, messages)
+        end)
 end)
 
 RegisterServerEvent("mailbox:getUsers")
@@ -168,7 +192,6 @@ AddEventHandler("mailbox:getUsers", function()
     if refreshRate > 0 and lastUsersRefresh + (1000 * refreshRate) < GetGameTimer() then
         RefreshUsersCache()
     end
-    print("SETTING USERS...")
     TriggerClientEvent("mailbox:setUsers", _source, usersCache)
 end)
 
@@ -178,41 +201,42 @@ AddEventHandler("mailbox:deleteMessage", function(data)
         print("[mailbox:deleteMessage] source is null")
     end
     local _source = source
-    local steamIdentifier =  CORE.getUser(_source).getIdentifier()
+    local steamIdentifier = CORE.getUser(_source).getIdentifier()
 
     local id = data.id
-    exports.ghmattimysql:execute("DELETE FROM mailbox_mails WHERE id = ? AND receiver_id = ?;", {id, steamIdentifier})
+    exports.ghmattimysql:execute("DELETE FROM mailbox_mails WHERE id = ? AND receiver_id = ?;", { id, steamIdentifier })
     TriggerClientEvent("mailbox:deleteMessage", _source, id)
 end)
 
-RegisterServerEvent("mailbox:maskAsRead")
-AddEventHandler("mailbox:maskAsRead", function(data)
+RegisterServerEvent("mailbox:markAsRead")
+AddEventHandler("mailbox:markAsRead", function(data)
     if source == nil then
-        print("[mailbox:maskAsRead] source is null")
+        print("[mailbox:markAsRead] source is null")
     end
     local _source = source
-    local steamIdentifier =  CORE.getUser(_source).getIdentifier()
+    local steamIdentifier = CORE.getUser(_source).getIdentifier()
 
     local id = data.id
-    exports.ghmattimysql:execute("UPDATE mailbox_mails SET opened = 1 WHERE id = ? AND receiver_id = ?;", {id, steamIdentifier})
-    TriggerClientEvent("mailbox:maskAsRead", _source, id)
+    exports.ghmattimysql:execute("UPDATE mailbox_mails SET opened = 1 WHERE id = ? AND receiver_id = ?;",
+        { id, steamIdentifier })
+    TriggerClientEvent("mailbox:markAsRead", _source, id)
 end)
 
 function RefreshUsersCache()
-    exports.ghmattimysql:execute( "SELECT identifier as steam, firstname, lastname FROM characters;",
-    {}, function (result)
-        --[[users: Array<{
+    exports.ghmattimysql:execute("SELECT identifier as steam, firstname, lastname FROM characters;",
+        {}, function(result)
+            --[[users: Array<{
                      identifier,
                      firstname,
                      lastname
                      }
                      >--]]
-        usersCache = result
-        table.sort(usersCache, function(a, b)
-            local aName = a.firstname .. " " .. a.lastname
-            local bName = b.firstname .. " " .. b.lastname
-            return aName:upper() < bName:upper()
+            usersCache = result
+            table.sort(usersCache, function(a, b)
+                local aName = a.firstname .. " " .. a.lastname
+                local bName = b.firstname .. " " .. b.lastname
+                return aName:upper() < bName:upper()
+            end)
+            lastUsersRefresh = GetGameTimer()
         end)
-        lastUsersRefresh = GetGameTimer()
-    end)
 end

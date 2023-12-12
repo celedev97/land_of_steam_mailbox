@@ -37,6 +37,7 @@ Locales['it'] = {
     ["UINamePrefix"]= "Da",
 
     ["BlipName"] = "Ufficio Telegrammi",
+    ["BirdPostBlipName"] = "Piccione viaggiatore",
 }
 
 if Config.AllowBroadcast then

@@ -37,6 +37,7 @@ Locales['en'] = {
     ["UINamePrefix"]= "From",
 
     ["BlipName"] = "Mail Box",
+    ["BirdPostBlipName"] = "Homing Pidgeon",
 }
 
 if Config.AllowBroadcast then

@@ -12,8 +12,8 @@ import {User, UserService} from "../services/user.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  _tab: 'read'|'write'|'broadcast'|undefined = undefined;
-  set tab(tab: 'read'|'write'|'broadcast'|undefined) {
+  _tab: 'read'|'write'|'broadcast'|'single'|undefined = undefined;
+  set tab(tab: 'read'|'write'|'broadcast'|'single'|undefined) {
     this._tab = tab;
     if(tab == 'read') {
       this.backendService.forceGetMessages().subscribe();
@@ -58,6 +58,11 @@ export class AppComponent {
           console.log("Received open message");
           this.tab = 'read';
           break;
+        case 'open_single':
+          console.log("Received open single message");
+          this.tab = 'single';
+          this.selectedTelegram = JSON.parse(message.message);
+          break;
         case 'open_broadcast':
           console.log("Received open broadcast message");
           this.tab = 'broadcast';
@@ -91,6 +96,7 @@ export class AppComponent {
     this.backendService.deleteMessage(selectedTelegram.id).subscribe((res) => {})
     setTimeout(() => {
       this.backendService.forceGetMessages().subscribe();
+      this.selectedTelegram = undefined;
     }, 500);
   }
 

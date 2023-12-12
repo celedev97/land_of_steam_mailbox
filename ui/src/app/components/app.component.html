@@ -19,9 +19,9 @@
 
   <div id="mailbox-body" class="flex-grow-1 py-2" style="height: 0">
 
-    <ng-container *ngIf="tab == 'read'">
+    <ng-container *ngIf="tab == 'read' || tab=='single'">
       <div class="w-100 h-100 d-flex">
-        <aside class="border border-black border-2 border-end-0 overflow-y-auto" style="min-width: 310px;max-width: 310px;">
+        <aside *ngIf="tab == 'read'" class="border border-black border-2 border-end-0 overflow-y-auto" style="min-width: 310px;max-width: 310px;">
           <ul id="mailbox-letters" class="mailbox-letters p-0">
             <li
               class="mailbox-letter px-3 py-4"
@@ -55,7 +55,7 @@
     </ng-container>
   </div>
 
-  <div id="mailbox-buttons" style="min-height: 100px" class="d-flex border border-black border-2 align-items-center justify-content-around">
+  <div id="mailbox-buttons" *ngIf="tab != 'single'" style="min-height: 100px" class="d-flex border border-black border-2 align-items-center justify-content-around">
     <ng-container *ngIf="tab == 'read'">
       <a id="mailbox-button-write" (click)="tab='write'">{{lang.uiWriteButton}}</a>
       <ng-container *ngIf="selectedTelegram">

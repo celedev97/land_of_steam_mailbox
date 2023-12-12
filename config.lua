@@ -28,8 +28,12 @@ Config.ReceiveBirdMessage   = true -- enable the ability to receive messages fro
 Config.BirdModel            = 'A_C_Owl_01' -- Bird model to use
 Config.AutoResurrect        = true -- Auto resurrect the bird when it's died while sending letters
 Config.BirdArrivalDelay     = 20000 -- Set the bird to arrives after 20 secs
-Config.BirdTimeout          = 180 -- When timeout reached, the bird will fail to deliver the letter
+Config.BirdTimeout          = 60 -- When timeout reached, the bird will fail to deliver the letter
+Config.BirdMinDistance      = 5 -- When timeout reached, the bird will fail to deliver the letter
+Config.BirdBlipEnabled      = true -- Enable blip on the map for the bird
 
+
+Config.Debug = true -- enable debug messages in the console
 
 Keys = {
     ["G"] = 0x760A9C6F,
