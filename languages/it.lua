@@ -14,6 +14,7 @@ Locales['it'] = {
     ["TipOnBirdFail3"] = "Puoi vedere il messaggio all'ufficio telegrammi più vicino!",
 
     ["TextNearMailboxLocation"]= "Premi $1 per vedere la tua posta", -- non toccare $, viene sostituito con la chiave utilizzata correntemente durante l'esecuzione
+    ["TextNearBirdLocation"]= "Premi $1 per vedere il messaggio", -- non toccare $, viene sostituito con la chiave utilizzata correntemente durante l'esecuzione
 
 
     ["UITitleLabel"]= "Land of Steam",

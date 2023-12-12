@@ -260,7 +260,7 @@ local StartBirdThread = function(payload)
             while destination <= Config.BirdMinDistance and not delivered do
                 Citizen.Wait(1)
 
-                DrawText(_U("TextNearMailboxLocation"), 23, 0.5, 0.85, 0.50, 0.40, 255, 255, 255, 255)
+                DrawText(_U("TextNearBirdLocation"), 23, 0.5, 0.85, 0.50, 0.40, 255, 255, 255, 255)
 
                 if not mailboxOpened and IsControlJustReleased(0, Keys[Config.keyToOpen]) then
                     delivered = true

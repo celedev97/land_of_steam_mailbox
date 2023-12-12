@@ -14,6 +14,7 @@ Locales['en'] = {
     ["TipOnBirdFail3"] = "You can retrieve the letter from the local Post Office!",
 
     ["TextNearMailboxLocation"]= "Press $1 to see your mail", -- don't touch $, it is replaced with curent used key on runtime
+    ["TextNearBirdLocation"]= "Press $1 to see your mail", -- non toccare $, viene sostituito con la chiave utilizzata correntemente durante l'esecuzione
 
 
     ["UITitleLabel"]= "Land of Steam",
