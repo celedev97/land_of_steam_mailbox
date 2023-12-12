@@ -224,21 +224,6 @@ local StartBirdThread = function(payload)
             end
 
             local IsPedAir = IsEntityInAir(birdPed, 1)
-            local isBirdDead = Citizen.InvokeNative(0x7D5B1F88E7504BBA, birdPed) -- IsEntityDead
-
-            --se l'uccello è morto per qualche mistica ragione, lo resuscito
-            if Config.AutoResurrect and isBirdDead then
-                Debug("isBirdDead", isBirdDead)
-
-                ClearPedTasksImmediately(birdPed)
-
-                SetEntityCoords(birdPed, birdCoords.x, birdCoords.y, birdCoords.z)
-                Citizen.Wait(1000)
-                Citizen.InvokeNative(0x71BC8E838B9C6035, birdPed) -- ResurrectPed
-                Citizen.Wait(1000)
-            end
-
-            local birdCoords = GetEntityCoords(birdPed)
 
             -- se l'uccello esiste, non è in aria, il player è stato avvisato e la distanza è maggiore di 3,
             -- faccio volare il piccione verso il player, serve in caso il player si sposti
@@ -253,7 +238,6 @@ local StartBirdThread = function(payload)
             --     Citizen.Wait(10000)
             -- end
 
-            ::continue::
         end
     end)
 

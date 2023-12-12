@@ -20,16 +20,16 @@ Config.TimeBetweenUsersRefresh = 120 -- time spent before server fetch all users
 Config.DelayBetweenTwoMessage = 15 -- time spent before user is allowed to send a message another time. In Seconds. If value is negative or 0, no delay is set
 Config.DelayBetweenTwoBroadcast = 600 -- time spent before user is allowed to send a broadcast another time. In Seconds. If value is negative or 0, no delay is set
 Config.MessageSendPrice = 1 --telegram price
-Config.MessageBroadcastPrice = 600 -- how much should players pay to brodcast a message to everyone
+Config.MessageBroadcastPrice = 50 -- how much should players pay to brodcast a message to everyone
 Config.AllowBroadcast = false -- allow players to send broadcast messages
 
 -- Bird Post settings
-Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from pidgeons
+Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from pidgeons, if false the player will only receive a tooltip when a message is received
 Config.BirdModel            = 'A_C_Owl_01' -- Bird model to use
 Config.AutoResurrect        = true -- Auto resurrect the bird when it's died while sending letters
-Config.BirdArrivalDelay     = 20000 -- Set the bird to arrives after 20 secs
+Config.BirdArrivalDelayMs   = 1000 -- Set the bird to arrives after 1 second
 Config.BirdTimeout          = 60 -- When timeout reached, the bird will fail to deliver the letter
-Config.BirdMinDistance      = 5 -- When timeout reached, the bird will fail to deliver the letter
+Config.BirdMinDistance      = 5 -- When the player is farther than x meters the bird will move again to the player, it also count as a distance for the prompt to show up
 Config.BirdBlipEnabled      = true -- Enable blip on the map for the bird
 
 
