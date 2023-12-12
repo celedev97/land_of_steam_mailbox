@@ -35,7 +35,7 @@ jobs:
       - name: Clear
         working-directory: ui
         run: |
-          cp ./dist ../dist
+          cp -r ./dist ../dist
           cd ..
           rm -R ui
           mkdir ui
