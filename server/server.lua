@@ -84,6 +84,13 @@ AddEventHandler("mailbox:sendMessage", function(data)
     TriggerEvent("vorp:removeMoney", _source, 0, price)
     lastUserMessageSent[steamIdentifier] = gameTime
     TriggerClientEvent("vorp:Tip", _source, _U("TipOnMessageSent"))
+
+    if(Config.EnableAdminDiscordWebhook) then
+        local header = "**"..sourceCharacter.firstname.." "..sourceCharacter.lastname.."** ha inviato un messaggio a **"..receiver.firstname.." "..receiver.lastname.."**\r\n**Contenuto:**"
+        exports.discord_rest:executeWebhookUrl(Config.DiscordAdminWebhook, {content = header.."\r\n```"..message..'```\r\n===================='})
+        print("[mailbox:sendMessage] Sent message to Discord")
+    end
+
 end)
 
 

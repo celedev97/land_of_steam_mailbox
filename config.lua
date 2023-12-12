@@ -35,6 +35,9 @@ Config.BirdBlipEnabled      = true -- Enable blip on the map for the bird
 
 Config.Debug = true -- enable debug messages in the console
 
+Config.EnableAdminDiscordWebhook = false
+Config.DiscordAdminWebhook = "https://discord.com/api/webhooks/.../..." -- Discord webhook for admin messages
+
 Keys = {
     ["G"] = 0x760A9C6F,
     ["Q"] = 0xDE794E3E,
