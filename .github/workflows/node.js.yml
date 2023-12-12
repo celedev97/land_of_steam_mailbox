@@ -17,30 +17,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: cd ui
+      - run: apt-get update && apt-get install zip -y
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.0
         with:
           node-version: 18
           cache: 'yarn'
+          cache-dependency-path: ui/yarn.lock
 
       - name: Yarn install
-        run: yarn install --frozen-lockfile
+        working-directory: ui
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
 
-      - name: Yarn install
-        run: yarn install --frozen-lockfile
-
-      - run: |
+      - name: Clear
+        working-directory: ui
+        run: |
           cp ./dist ../dist
           cd ..
           rm -R ui
           mkdir ui
           mv ./dist ./ui/dist
-
-      - run: apt-get update && apt-get install zip -y
-
-      - run: zip -r release.zip .
+          zip -r release.zip .
 
       - uses: ncipollo/release-action@v1.13.0
         with:
