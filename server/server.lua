@@ -73,6 +73,8 @@ AddEventHandler("mailbox:sendMessage", function(data)
                             lastname = sourceCharacter.lastname,
                             message = message
                         })
+                        
+                        --tip custom per messaggio inviato e ricevuto vs tip per messaggio inviato ma non ricevuto?
                         return
                     end
                 end
@@ -81,8 +83,7 @@ AddEventHandler("mailbox:sendMessage", function(data)
 
     TriggerEvent("vorp:removeMoney", _source, 0, price)
     lastUserMessageSent[steamIdentifier] = gameTime
-    print("[mailbox:sendMessage] sending vorp tip: " .. _U("TipOnMessageSent"))
-    TriggerClientEvent("vorp:Tip", _U("TipOnMessageSent"))
+    TriggerClientEvent("vorp:Tip", _source, _U("TipOnMessageSent"))
 end)
 
 

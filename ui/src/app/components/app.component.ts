@@ -106,8 +106,8 @@ export class AppComponent {
   }
 
   toLocalDate(received_at: string) {
-    var hours = new Date(received_at).getHours();
-    var minutes = new Date(received_at).getMinutes();
+    var hours = ('00'+new Date(received_at).getHours()).slice(-2);
+    var minutes = ('00'+new Date(received_at).getMinutes()).slice(-2);
     return new Date(received_at).toLocaleDateString() + " - " + hours + ":" + minutes;
   }
 

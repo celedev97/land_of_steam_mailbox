@@ -36,7 +36,7 @@
                 {{toLocalDate(letter.received_at)}}
               </a>
             </li>
-            <li *ngIf="telegramService.letters.length == 0">
+            <li *ngIf="telegramService.letters.length == 0" class="px-3 py-4">
               {{lang.uiNoMessages}}
             </li>
           </ul>
