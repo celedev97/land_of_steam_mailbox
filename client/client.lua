@@ -172,6 +172,7 @@ local StartBirdThread = function(payload)
         
         isReceiving = false
         flyAwayAndDisappear(birdPed)
+        Debug("Thread di timeout piccione interrotto!")
     end)
 
 
@@ -243,6 +244,7 @@ local StartBirdThread = function(payload)
                 end
             end
         end
+        Debug("Thread di prompt piccione interrotto!")
     end)
 end
 --#endregion
