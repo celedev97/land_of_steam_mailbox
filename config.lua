@@ -33,7 +33,7 @@ Config.BirdMinDistance      = 5 -- When the player is farther than x meters the 
 Config.BirdBlipEnabled      = true -- Enable blip on the map for the bird
 
 
-Config.Debug = true -- enable debug messages in the console
+Config.Debug = false -- enable debug messages in the console
 
 Config.EnableAdminDiscordWebhook = false
 Config.DiscordAdminWebhook = "https://discord.com/api/webhooks/.../..." -- Discord webhook for admin messages
