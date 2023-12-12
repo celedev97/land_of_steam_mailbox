@@ -26,6 +26,8 @@ end
 
 local flyAwayAndDisappear = function(birdPed)
     Citizen.CreateThread(function ()
+        ClearPedTasksImmediately(birdPed)
+
         local birdCoords = GetEntityCoords(birdPed)
         TaskFlyToCoord(birdPed, 0, birdCoords.x + 100, birdCoords.y + 100, birdCoords.z + 100, 1, 0)
 
@@ -162,13 +164,13 @@ local StartBirdThread = function(payload)
         Debug("Tempo del piccione finito!")
         if birdTime <= 0 and birdPed ~= nil and notified then
             Debug("Il piccione si è stufato!")
-            DisplayTip(_U("TipOnPidgeonFail1"), 5000)
+            DisplayTip(_U("TipOnBirdFail1"), 5000)
             Citizen.Wait(8000)
-            DisplayTip(_U("TipOnPidgeonFail2"), 5000)
+            DisplayTip(_U("TipOnBirdFail2"), 5000)
             isReceiving = false
             flyAwayAndDisappear(birdPed)
             Citizen.Wait(8000)
-            DisplayTip(_U("TipOnPidgeonFail3"), 5000)
+            DisplayTip(_U("TipOnBirdFail3"), 5000)
         end
         
         flyAwayAndDisappear(birdPed)
@@ -184,7 +186,7 @@ local StartBirdThread = function(payload)
             local playerCoords = GetEntityCoords(playerPed)
 
             if not spawned then
-                Debug("Spawning pidgeon!")
+                Debug("Spawning bird!")
                 birdPed = SpawnBirdPost(playerCoords.x - 100, playerCoords.y - 100, playerCoords.z + 100, 92.0, rFar, 0)
                 TaskFlyToCoord(birdPed, 0, playerCoords.x - 1, playerCoords.y - 1, playerCoords.z, 1, 0)
                 spawned = true
@@ -196,12 +198,12 @@ local StartBirdThread = function(payload)
             destination = #(birdCoords - myCoords)
 
             if not notified then
-                Debug("notifying player of arriving pidgeon!")
+                Debug("notifying player of arriving bird!")
                 notified = true
                 Citizen.CreateThread(function ()
-                    DisplayTip(_U("TipOnPidgeonMessageReceived"), 5000)
+                    DisplayTip(_U("TipOnBirdMessageReceived"), 5000)
                     Citizen.Wait(8000)
-                    DisplayTip(_U("TipOnPidgeonMessageWait"), 5000)
+                    DisplayTip(_U("TipOnBirdMessageWait"), 5000)
                 end)
             end
 
@@ -230,11 +232,15 @@ local StartBirdThread = function(payload)
             local IsPedAir = IsEntityInAir(birdPed, 1)
 
             -- se il piccione sta volando troppo lento o sta girando in tondo, ricalcolo la destinazione
-            if speed < 0.1 and IsPedAir then
+            if speed < 0 and IsPedAir then
+                Debug("speed", speed)
                 Debug("Il piccione si è bloccato, ricalcolo!")
                 distance = 9999
                 ClearPedTasksImmediately(birdPed)
                 TaskFlyToCoord(birdPed, 0, myCoords.x - 1, myCoords.y - 1, myCoords.z, 1, 0)
+                
+                --lascio al piccione 1 secondo di tempo per partire a razzo,
+                Citizen.Wait(1000) 
             end
             -- se il piccione è atterrato ma il player è stronzo e si è spostato lo seguo
             if birdPed ~= nil and not IsPedAir and notified and destination > Config.BirdMinDistance then   
@@ -303,7 +309,7 @@ AddEventHandler('mailbox:receiveMessage', function(payload)
     canRefreshMessage = true
 end)
 
-RegisterCommand("testPidgeon", function(source, args, rawCommand)
+RegisterCommand("testBird", function(source, args, rawCommand)
     TriggerEvent('mailbox:receiveMessage', {
         firstname = "Testonio",
         lastname = "Testonius",

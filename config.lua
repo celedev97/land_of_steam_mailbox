@@ -24,11 +24,11 @@ Config.MessageBroadcastPrice = 50 -- how much should players pay to brodcast a m
 Config.AllowBroadcast = false -- allow players to send broadcast messages
 
 -- Bird Post settings
-Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from pidgeons, if false the player will only receive a tooltip when a message is received
+Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from birds, if false the player will only receive a tooltip when a message is received
 Config.BirdModel            = 'A_C_Owl_01' -- Bird model to use
 Config.AutoResurrect        = true -- Auto resurrect the bird when it's died while sending letters
 Config.BirdArrivalDelayMs   = 1000 -- Set the bird to arrives after 1 second
-Config.BirdTimeout          = 60 -- When timeout reached, the bird will fail to deliver the letter
+Config.BirdTimeout          = 120 -- When timeout reached, the bird will fail to deliver the letter
 Config.BirdMinDistance      = 5 -- When the player is farther than x meters the bird will move again to the player, it also count as a distance for the prompt to show up
 Config.BirdBlipEnabled      = true -- Enable blip on the map for the bird
 
