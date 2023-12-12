@@ -24,8 +24,8 @@ Config.MessageBroadcastPrice = 600 -- how much should players pay to brodcast a 
 Config.AllowBroadcast = false -- allow players to send broadcast messages
 
 -- Bird Post settings
-Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from pidgeons
-Config.BirdModel            = 'A_C_Owl_01' -- Bird model to use
+Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from pigeons
+Config.BirdModel            = 'A_C_Pigeon'--'A_C_Owl_01' -- Bird model to use
 Config.AutoResurrect        = true -- Auto resurrect the bird when it's died while sending letters
 Config.BirdArrivalDelay     = 20000 -- Set the bird to arrives after 20 secs
 Config.BirdTimeout          = 180 -- When timeout reached, the bird will fail to deliver the letter

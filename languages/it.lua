@@ -8,11 +8,11 @@ Locales['it'] = {
     ["TipOnInsufficientMoneyForBroadcast"]= "Denaro insufficiente. Hai bisogno di $1$", -- non toccare $n, viene sostituito con valori personalizzati durante l'esecuzione
     ["TipInsideBuildingError"] = "Sei dentro un edificio, il piccione non può raggiungerti",
 
-    ["TipOnPidgeonMessageReceived"]= "Ehi tu! Un piccione sta arrivando con un messaggio",
-    ["TipOnPidgeonMessageWait"]= "Fermati e aspetta il piccione",
-    ["TipOnPidgeonFail1"] = "Hai scelto di non prendere la lettera!",
-    ["TipOnPidgeonFail2"] = "Il piccione si è stufato e se n'è andato!",
-    ["TipOnPidgeonFail3"] = "Puoi vedere il messaggio all'ufficio telegrammi più vicino!",
+    ["TipOnPigeonMessageReceived"]= "Ehi tu! Un piccione sta arrivando con un messaggio",
+    ["TipOnPigeonMessageWait"]= "Fermati e aspetta il piccione",
+    ["TipOnPigeonFail1"] = "Hai scelto di non prendere la lettera!",
+    ["TipOnPigeonFail2"] = "Il piccione si è stufato e se n'è andato!",
+    ["TipOnPigeonFail3"] = "Puoi vedere il messaggio all'ufficio telegrammi più vicino!",
 
     ["TextNearMailboxLocation"]= "Premi $1 per vedere la tua posta", -- non toccare $, viene sostituito con la chiave utilizzata correntemente durante l'esecuzione
 
