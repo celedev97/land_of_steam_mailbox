@@ -72,8 +72,8 @@
       <a id="mailbox-button-send" (click)="sendMessage()">{{lang.uiSendButton}}</a>
     </ng-container>
     <ng-container *ngIf="tab == 'broadcast'">
-      <a id="mailbox-button-broadcast-cancel">{{lang.uiAbortButton}}</a>
-      <a id="mailbox-button-broadcast">{{lang.uiSendButton}}</a>
+      <a id="mailbox-button-broadcast-cancel" (click)="tab='read'">{{lang.uiAbortButton}}</a>
+      <a id="mailbox-button-broadcast" (click)="sendBroadCast()">{{lang.uiSendButton}}</a>
     </ng-container>
   </div>
 

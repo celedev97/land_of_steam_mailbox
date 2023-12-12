@@ -19,11 +19,7 @@ export class BackendService {
   }
 
   public sendBroadcastMessage(message: string) {
-    return this.http.post(`${API}/broadcast`, {message});
-  }
-
-  public sendMessage(message: string, destination: string) {
-    return this.http.post(`${API}/broadcast`, {message, destination});
+    return this.http.post(`${API}/broadcast`, {message: message});
   }
 
   public forceGetUsers() {

@@ -84,8 +84,8 @@ export class AppComponent {
     this.showSelectDialog = false;
   }
 
-  private setMessages(parse: any) {
-
+  sendBroadCast() {
+    this.backendService.sendBroadcastMessage(this.myMessage).subscribe();
   }
 
   public closeUI() {
