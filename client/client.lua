@@ -284,6 +284,8 @@ AddEventHandler('onClientResourceStart', function(resourceName)
 
     Locales[Config.locale]["TextNearMailboxLocation"] = Locales[Config.locale]["TextNearMailboxLocation"]:gsub("%$1",
         Config.keyToOpen):gsub("%$2", Config.keyToOpenBroadcast)
+    Locales[Config.locale]["TextNearBirdLocation"] = Locales[Config.locale]["TextNearBirdLocation"]:gsub("%$1",
+        Config.keyToOpen)
 
     for _, location in pairs(Config.locations) do
         SetBlipAtPos(location.x, location.y, location.z)
