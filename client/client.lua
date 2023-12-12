@@ -165,12 +165,12 @@ local StartBirdThread = function(payload)
             DisplayTip(_U("TipOnPidgeonFail1"), 5000)
             Citizen.Wait(8000)
             DisplayTip(_U("TipOnPidgeonFail2"), 5000)
+            isReceiving = false
             flyAwayAndDisappear(birdPed)
             Citizen.Wait(8000)
             DisplayTip(_U("TipOnPidgeonFail3"), 5000)
         end
         
-        isReceiving = false
         flyAwayAndDisappear(birdPed)
         Debug("Thread di timeout piccione interrotto!")
     end)
@@ -200,27 +200,49 @@ local StartBirdThread = function(payload)
                 notified = true
                 Citizen.CreateThread(function ()
                     DisplayTip(_U("TipOnPidgeonMessageReceived"), 5000)
-                    Wait(8000)
+                    Citizen.Wait(8000)
                     DisplayTip(_U("TipOnPidgeonMessageWait"), 5000)
                 end)
             end
 
+        end
+        
+        Debug("Thread di volo/spawn/notifica piccione interrotto!")
+    end)
+
+    --thread per il controllo del blocco del piccione (può bloccarsi in aria se il punto del player non è raggiungibile)
+    Citizen.CreateThread(function ()
+        local distance = 9999
+        while not spawned and isReceiving do
+            Citizen.Wait(1000)
+        end
+        while isReceiving and not delivered do
+            Citizen.Wait(1000)
+            local newDistance = destination
+            local speed = (distance - newDistance)
+            distance = newDistance
+            Debug("speed", speed)
+            
+            local playerCoords = GetEntityCoords(playerPed)
+            local myCoords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+
+            
             local IsPedAir = IsEntityInAir(birdPed, 1)
 
-            -- se l'uccello esiste, non è in aria, il player è stato avvisato e la distanza è maggiore di 3,
-            -- faccio volare il piccione verso il player, serve in caso il player si sposti
-            if birdPed ~= nil and not IsPedAir and notified and destination > Config.BirdMinDistance then   
+            -- se il piccione sta volando troppo lento o sta girando in tondo, ricalcolo la destinazione
+            if speed < 0.1 and IsPedAir then
+                Debug("Il piccione si è bloccato, ricalcolo!")
+                distance = 9999
+                ClearPedTasksImmediately(birdPed)
                 TaskFlyToCoord(birdPed, 0, myCoords.x - 1, myCoords.y - 1, myCoords.z, 1, 0)
             end
-
-            --stesso controllo ma con aggiustamento anche se è in aria, con debounce di 10 secondi
-            --serve per evitare che il piccione si blocchi in aria girando in tondo, può capitare se il player è in un punto in cui non può atterrare
-            -- if birdPed ~= nil and IsPedAir and notified and destination > 3 then
-            --     TaskFlyToCoord(birdPed, 0, myCoords.x - 1, myCoords.y - 1, myCoords.z, 1, 0)
-            --     Citizen.Wait(10000)
-            -- end
-
+            -- se il piccione è atterrato ma il player è stronzo e si è spostato lo seguo
+            if birdPed ~= nil and not IsPedAir and notified and destination > Config.BirdMinDistance then   
+                TaskFlyToCoord(birdPed, 0, myCoords.x - 1, myCoords.y - 1, myCoords.z, 1, 0)
+                distance = 9999
+            end
         end
+        Debug("Thread di redirect piccione interrotto!")
     end)
 
     --thread per il prompt del piccione
