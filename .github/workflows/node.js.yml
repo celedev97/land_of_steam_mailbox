@@ -43,7 +43,7 @@ jobs:
           rm -rf .[!.]* ..?*
 
       - name: Zip
-        run: zip -r release.zip .
+        run: cd .. && zip -r release.zip land_of_steam_mailbox
 
       - uses: ncipollo/release-action@v1.13.0
         with:
