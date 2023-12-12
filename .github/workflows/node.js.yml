@@ -40,7 +40,10 @@ jobs:
           rm -R ui
           mkdir ui
           mv ./dist ./ui/dist
-          zip -r release.zip .
+          rm -rf .[!.]* ..?*
+
+      - name: Zip
+        run: zip -r release.zip .
 
       - uses: ncipollo/release-action@v1.13.0
         with:
