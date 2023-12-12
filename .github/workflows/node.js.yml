@@ -1,0 +1,51 @@
+name: Release
+
+#on push tag
+on:
+  pull_request:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: cd ui
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+
+      - run: |
+          cp ./dist ../dist
+          cd ..
+          rm -R ui
+          mkdir ui
+          mv ./dist ./ui/dist
+
+      - run: apt-get update && apt-get install zip -y
+
+      - run: zip -r release.zip .
+
+      - uses: ncipollo/release-action@v1.13.0
+        with:
+          name: ${{ inputs.version }}
+          tag: ${{ inputs.version }}
+          artifacts: "release.zip"
+          prerelease: true
+          generateReleaseNotes: true
