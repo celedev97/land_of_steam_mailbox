@@ -343,6 +343,16 @@ AddEventHandler('mailbox:setUsers', function(payload)
     SendNUIMessage({ action = "set_users", users = json.encode(payload) })
 end)
 
+--close event to be called from the backend
+RegisterNetEvent('mailbox:close')
+AddEventHandler('mailbox:close', function()
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = "close" })
+
+    mailboxOpened = false
+end)
+
+
 -- TODO: rimpiazza questa cosa con i prompt di gioco, il wait di 1ms è una mazzata mostruosa sulle performance
 Citizen.CreateThread(function()
     while true do

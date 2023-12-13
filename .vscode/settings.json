@@ -45,6 +45,7 @@
         "GetNumPlayerIdentifiers",
         "GetPlayerIdentifier",
         "exports",
-        "GetCurrentResourceName"
+        "GetCurrentResourceName",
+        "SetNuiFocus"
     ]
 }

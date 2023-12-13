@@ -20,8 +20,8 @@ Config.TimeBetweenUsersRefresh = 120 -- time spent before server fetch all users
 Config.DelayBetweenTwoMessage = 15 -- time spent before user is allowed to send a message another time. In Seconds. If value is negative or 0, no delay is set
 Config.DelayBetweenTwoBroadcast = 600 -- time spent before user is allowed to send a broadcast another time. In Seconds. If value is negative or 0, no delay is set
 Config.MessageSendPrice = 1 --telegram price
-Config.MessageBroadcastPrice = 50 -- how much should players pay to brodcast a message to everyone
-Config.AllowBroadcast = false -- allow players to send broadcast messages
+Config.MessageBroadcastPrice = 5 -- how much should players pay to brodcast a message to everyone
+Config.AllowBroadcast = true -- allow players to send broadcast messages
 
 -- Bird Post settings
 Config.ReceiveBirdMessage   = true -- enable the ability to receive messages from birds, if false the player will only receive a tooltip when a message is received

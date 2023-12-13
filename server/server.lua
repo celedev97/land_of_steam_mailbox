@@ -133,6 +133,8 @@ AddEventHandler("mailbox:broadcastMessage", function(data)
         TriggerClientEvent("mailbox:receiveBroadcast", user.source,
             { message = message, author = sourceCharacter.firstname .. " " .. sourceCharacter.lastname })
     end
+
+    TriggerClientEvent("mailbox:close")
 end)
 
 --function IsPlayerConnected(handle)
