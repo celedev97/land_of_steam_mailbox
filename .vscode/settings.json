@@ -49,6 +49,8 @@
         "SetNuiFocus",
         "Add",
         "TriggerServerEvent",
-        "RegisterServerEvent"
+        "RegisterServerEvent",
+        "GetGameTimer",
+        "RegisterNUICallback"
     ]
 }

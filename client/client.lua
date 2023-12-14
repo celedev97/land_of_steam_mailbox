@@ -3,6 +3,7 @@ local mailboxOpened = false
 local messageCache = {}
 local canRefreshMessage = true
 local ready = false
+local checkedUnreadMessages = false
 
 local HEALTH_ID = 0
 local STAMINA_ID = 1
@@ -296,11 +297,6 @@ AddEventHandler('onClientResourceStart', function(resourceName)
     TriggerServerEvent("mailbox:getMessages");
 
     ready = true
-
-    Citizen.CreateThread(function()
-        Citizen.Wait(5000)
-        TriggerEvent("mailbox:checkUnreadMessages")
-    end)
 end)
 
 RegisterNetEvent('mailbox:receiveMessage')
@@ -338,11 +334,16 @@ end
 
 RegisterNetEvent('mailbox:checkUnreadMessages')
 AddEventHandler('mailbox:checkUnreadMessages', function(payload)
+    if(checkedUnreadMessages) then
+        return
+    end
+
     Debug("checkUnreadMessages event received!", payload)
     --note this event is called from the backend after login, and after calling the getMessages event, so we can use the messageCache
     local unreadMessages = {}
 
     Debug('totalMessages', #messageCache)
+
     for _, value in ipairs(messageCache) do
         Debug("value.opened:", value.opened)
         if value.opened == false or value.opened == 0 then
@@ -350,9 +351,11 @@ AddEventHandler('mailbox:checkUnreadMessages', function(payload)
         end
     end
 
+    checkedUnreadMessages = true
     Debug("unreadMessages:", #unreadMessages)
     if #unreadMessages > 0 then
-        DisplayTip(_U("TipUnreadMessages"):gsub("%$1", #unreadMessages), 5000)
+        Citizen.Wait(5000)
+        DisplayTip(_U("TipUnreadMessages"):gsub("%$1", #unreadMessages), 10000)
     end
 end)
 
@@ -373,6 +376,13 @@ AddEventHandler('mailbox:setMessages', function(payload)
 
         SendNUIMessage({ action = "set_messages", messages = json.encode(payload) })
     end
+end)
+
+RegisterNetEvent('mailbox:SelectedCharacter')
+AddEventHandler('mailbox:SelectedCharacter', function(payload)
+    TriggerServerEvent("mailbox:getMessages");
+    Citizen.Wait(10000)
+    TriggerEvent("mailbox:checkUnreadMessages")
 end)
 
 RegisterNetEvent('mailbox:setUsers')

@@ -134,7 +134,7 @@ AddEventHandler("mailbox:broadcastMessage", function(data)
             { message = message, author = sourceCharacter.firstname .. " " .. sourceCharacter.lastname })
     end
 
-    TriggerClientEvent("mailbox:close")
+    TriggerClientEvent("mailbox:close", _source)
 end)
 
 --function IsPlayerConnected(handle)
@@ -147,8 +147,7 @@ end)
 
 AddEventHandler("vorp:SelectedCharacter", function(source, character)
     print("vorp:SelectedCharacter event received!", source)
-    --TriggerEvent("mailbox:getMessages");
-    --TriggerClientEvent("mailbox:checkUnreadMessages", source)
+    TriggerClientEvent("mailbox:SelectedCharacter", source)
 end)
 
 RegisterServerEvent("mailbox:getMessages")
