@@ -6,6 +6,8 @@ Locales['it'] = {
     ["TipOnTooRecentMessageSent"]= "Devi aspettare almeno $1 secondi prima di inviare un nuovo messaggio", -- non toccare $n, viene sostituito con valori personalizzati durante l'esecuzione
     ["TipOnInsufficientMoneyForMessage"]= "Denaro insufficiente. Hai bisogno di $1$", -- non toccare $n, viene sostituito con valori personalizzati durante l'esecuzione
     ["TipOnInsufficientMoneyForBroadcast"]= "Denaro insufficiente. Hai bisogno di $1$", -- non toccare $n, viene sostituito con valori personalizzati durante l'esecuzione
+    
+    ["TipUnreadMessages"] = "Hai $1 messaggi non letti",
 
     ["TipOnBirdMessageReceived"]= "Ehi tu! Un uccello messaggero sta arrivando con un messaggio",
     ["TipOnBirdMessageWait"]= "Fermati e aspetta il messaggero",

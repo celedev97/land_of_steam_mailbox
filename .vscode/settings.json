@@ -47,6 +47,8 @@
         "exports",
         "GetCurrentResourceName",
         "SetNuiFocus",
+        "Add",
+        "TriggerServerEvent",
         "RegisterServerEvent"
     ]
 }

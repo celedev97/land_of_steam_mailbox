@@ -7,6 +7,8 @@ Locales['en'] = {
     ["TipOnInsufficientMoneyForMessage"]= "Insufficient money. You need $1$", -- don't touch $n, it is replaced with custom values on runtime
     ["TipOnInsufficientMoneyForBroadcast"]= "Insufficient money. You need $1$", -- don't touch $n, it is replaced with custom values on runtime
 
+    ["TipUnreadMessages"] = "You have $1 unread messages",
+    
     ["TipOnBirdMessageReceived"]= "Hey you! A bird post is coming to you with a message",
     ["TipOnBirdMessageWait"]= "Stop and wait for the bird",
     ["TipOnBirdFail1"] = "You've' decided not to pickup the letter!",

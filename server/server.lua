@@ -145,6 +145,12 @@ end)
 --    end
 --end
 
+AddEventHandler("vorp:SelectedCharacter", function(source, character)
+    print("vorp:SelectedCharacter event received!", source)
+    --TriggerEvent("mailbox:getMessages");
+    --TriggerClientEvent("mailbox:checkUnreadMessages", source)
+end)
+
 RegisterServerEvent("mailbox:getMessages")
 AddEventHandler("mailbox:getMessages", function()
     if source == nil then

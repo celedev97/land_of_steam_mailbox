@@ -296,6 +296,11 @@ AddEventHandler('onClientResourceStart', function(resourceName)
     TriggerServerEvent("mailbox:getMessages");
 
     ready = true
+
+    Citizen.CreateThread(function()
+        Citizen.Wait(5000)
+        TriggerEvent("mailbox:checkUnreadMessages")
+    end)
 end)
 
 RegisterNetEvent('mailbox:receiveMessage')
@@ -312,14 +317,44 @@ end)
 
 if Config.Debug then
     RegisterCommand("testBird", function(source, args, rawCommand)
+        Debug("testBird command received!", source)
         TriggerEvent('mailbox:receiveMessage', {
             firstname = "Testonio",
             lastname = "Testonius",
             message = "Contenuto di test"
         })
     end, true)
+
+    RegisterCommand("openMailbox", function (source, args, rawCommand)
+        Debug("openMailbox command received!", source)
+        OpenUI(false)
+    end, true)
+
+    RegisterCommand("openBroadcast", function (source, args, rawCommand)
+        Debug("openBroadcast command received!", source)
+        OpenUI(true)
+    end, true)
 end
 
+RegisterNetEvent('mailbox:checkUnreadMessages')
+AddEventHandler('mailbox:checkUnreadMessages', function(payload)
+    Debug("checkUnreadMessages event received!", payload)
+    --note this event is called from the backend after login, and after calling the getMessages event, so we can use the messageCache
+    local unreadMessages = {}
+
+    Debug('totalMessages', #messageCache)
+    for _, value in ipairs(messageCache) do
+        Debug("value.opened:", value.opened)
+        if value.opened == false or value.opened == 0 then
+            table.insert(unreadMessages, value)
+        end
+    end
+
+    Debug("unreadMessages:", #unreadMessages)
+    if #unreadMessages > 0 then
+        DisplayTip(_U("TipUnreadMessages"):gsub("%$1", #unreadMessages), 5000)
+    end
+end)
 
 
 RegisterNetEvent('mailbox:receiveBroadcast')
