@@ -3,7 +3,7 @@ local mailboxOpened = false
 local messageCache = {}
 local canRefreshMessage = true
 local ready = false
-local checkedUnreadMessages = false
+local displayedUnreadMessages = false
 
 local HEALTH_ID = 0
 local STAMINA_ID = 1
@@ -334,7 +334,7 @@ end
 
 RegisterNetEvent('mailbox:checkUnreadMessages')
 AddEventHandler('mailbox:checkUnreadMessages', function(payload)
-    if(checkedUnreadMessages) then
+    if(displayedUnreadMessages) then
         return
     end
 
@@ -350,10 +350,9 @@ AddEventHandler('mailbox:checkUnreadMessages', function(payload)
             table.insert(unreadMessages, value)
         end
     end
-
-    checkedUnreadMessages = true
     Debug("unreadMessages:", #unreadMessages)
     if #unreadMessages > 0 then
+        displayedUnreadMessages = true
         Citizen.Wait(5000)
         DisplayTip(_U("TipUnreadMessages"):gsub("%$1", #unreadMessages), 10000)
     end
@@ -378,8 +377,13 @@ AddEventHandler('mailbox:setMessages', function(payload)
     end
 end)
 
+AddEventHandler('playerSpawned', function(spawn)
+    TriggerEvent("mailbox:SelectedCharacter")
+end)
+
 RegisterNetEvent('mailbox:SelectedCharacter')
 AddEventHandler('mailbox:SelectedCharacter', function(payload)
+    print("mailbox:SelectedCharacter event received!", source)
     TriggerServerEvent("mailbox:getMessages");
     Citizen.Wait(10000)
     TriggerEvent("mailbox:checkUnreadMessages")
