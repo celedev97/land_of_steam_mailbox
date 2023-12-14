@@ -46,6 +46,7 @@
         "GetPlayerIdentifier",
         "exports",
         "GetCurrentResourceName",
-        "SetNuiFocus"
+        "SetNuiFocus",
+        "RegisterServerEvent"
     ]
 }

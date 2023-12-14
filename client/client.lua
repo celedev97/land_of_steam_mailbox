@@ -310,13 +310,15 @@ AddEventHandler('mailbox:receiveMessage', function(payload)
     canRefreshMessage = true
 end)
 
-RegisterCommand("testBird", function(source, args, rawCommand)
-    TriggerEvent('mailbox:receiveMessage', {
-        firstname = "Testonio",
-        lastname = "Testonius",
-        message = "Contenuto di test"
-    })
-end, true) -- set this to false to allow anyone.
+if Config.Debug then
+    RegisterCommand("testBird", function(source, args, rawCommand)
+        TriggerEvent('mailbox:receiveMessage', {
+            firstname = "Testonio",
+            lastname = "Testonius",
+            message = "Contenuto di test"
+        })
+    end, true)
+end
 
 
 
